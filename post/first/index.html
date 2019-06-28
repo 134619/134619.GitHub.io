@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="张洋的技术博客">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="//img/space1.jpg">
+    <meta property="twitter:image" content="//img/space1.jpg" />
+    
+
+    
+    <meta name="title" content="算法分类 ,时间复杂度,空间复杂度,优化算法" />
+    <meta property="og:title" content="算法分类 ,时间复杂度,空间复杂度,优化算法" />
+    <meta property="twitter:title" content="算法分类 ,时间复杂度,空间复杂度,优化算法" />
+    
+
+    
+    <meta name="description" content="算法的复杂度分为时间复杂度与空间复杂度,时间复杂度指执行算法需要需要的计算工作量,空间复杂度值执行算法需要的内存量,可能在运行一些小数据的时候,大家体会不到算法的时间与空间带来的体验. 优化算法就是将算法的时间优化到最快,将空间优化到最小,假如你写的mod能够将百度游览器的搜索时间提升0.5秒,那都是特别厉害的成绩">
+    <meta property="og:description" content="算法的复杂度分为时间复杂度与空间复杂度,时间复杂度指执行算法需要需要的计算工作量,空间复杂度值执行算法需要的内存量,可能在运行一些小数据的时候,大家体会不到算法的时间与空间带来的体验. 优化算法就是将算法的时间优化到最快,将空间优化到最小,假如你写的mod能够将百度游览器的搜索时间提升0.5秒,那都是特别厉害的成绩" />
+    <meta property="twitter:description" content="算法的复杂度分为时间复杂度与空间复杂度,时间复杂度指执行算法需要需要的计算工作量,空间复杂度值执行算法需要的内存量,可能在运行一些小数据的时候,大家体会不到算法的时间与空间带来的体验. 优化算法就是将算法的时间优化到最快,将空间优化到最小,假如你写的mod能够将百度游览器的搜索时间提升0.5秒,那都是特别厉害的成绩" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="在编码中，我喜欢踩别人没踩过得坑，吃别人没吃过的亏，玩别人没玩过得技术，别其他人更努力">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>算法分类 ,时间复杂度,空间复杂度,优化算法-张洋的博客，你可以叫他伪善</title>
+
+    <link rel="canonical" href="/post/first/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+	
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">张洋的技术博客</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/tech">tech</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/bpic12214_s.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                    </div>
+                    <h1>算法分类 ,时间复杂度,空间复杂度,优化算法</h1>
+                    <h2 class="subheading">算法分类 ,时间复杂度,空间复杂度,优化算法</h2>
+                    <span class="meta">
+			Posted by 
+			
+			        &#34;张洋&#34;
+			 
+			on 
+			Friday, June 23, 2017
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li><a href="#常见的算法有哪些">常见的算法有哪些</a></li>
+<li><a href="#冒泡排序-bubble-sort">冒泡排序(Bubble Sort),</a>
+<ul>
+<li><a href="#冒泡排序代码">冒泡排序代码</a></li>
+</ul></li>
+<li><a href="#选择排序-selection-sort">选择排序(selection sort)</a>
+<ul>
+<li><a href="#选择排序代码">选择排序代码</a></li>
+</ul></li>
+<li><a href="#时间复杂度-空间复杂度">时间复杂度,空间复杂度</a></li>
+</ul>
+</nav>
+                
+                
+
+<hr />
+
+<p>date: &ldquo;2017-05-23&rdquo;
+title: &ldquo;算法分类 ,时间复杂度 ,空间复杂度,优化算法&rdquo;</p>
+
+<hr />
+
+<p>　　　<p>　今天给大家带来一篇关于算法排序的分类,算法的时间复杂度,空间复杂度,还有怎么去优化算法的文章,喜欢的话,可以关注,有什么问题,可以评论区提问,可以与我私信,有什么好的意见,欢迎提出. <p></p>
+
+<p><code>本章内容:   1,算法有哪些   2,时间复杂度,空间复杂度   3,优化算法   4,算法实例</code></p>
+
+<h1 id="常见的算法有哪些">常见的算法有哪些</h1>
+
+<blockquote>
+<p>常见的算法有冒泡排序,快排,归并,希尔,插入,二分法,选择排序,广度优先搜索,贪婪算法,这些都是新手入门必须要了解的,你可以不会,但是你必须要知道他是怎么做到的,原理是什么,今天就给大家讲一讲我们常用的冒泡排序,选择排序,这两个排序算法,</p>
+</blockquote>
+
+<h1 id="冒泡排序-bubble-sort">冒泡排序(Bubble Sort),</h1>
+
+<p><code>为什么叫他冒泡排序呢? 因为他就像是从海底往海面升起的气泡一样,从小到大,将要排序的数从小到大排序,</code></p>
+
+<p><code>冒泡的原理: 他会一次比较两个数字,如果他们的顺序错误,就将其调换位置,如果排序正确的话,就比较下一个,然后重复的进行,直到比较完毕,</code></p>
+
+<p><code>这个算法的名字也是这样由来的,越大的数字,就会慢慢的'浮'到最顶端. 好了该上代码了,下面就是冒泡排序的代码,冒泡相对于其他的排序算法来说,比较的简单,比较好理解,运算起来也是比较迅速的,比较稳定,在工作中也会经常用到,推荐使用</code></p>
+
+<h2 id="冒泡排序代码">冒泡排序代码</h2>
+
+<pre><code>    def bubble_sort(alist):
+        n = len(alist)
+        # 循环遍历，找到当前列表中最大的数值
+        for i in range(n-1):
+            # 遍历无序序列
+            for j in range(n-1-i):
+                # 判断当前节点是否大于后续节点，如果大于后续节点则对调
+                if alist[j] &gt; alist[j+1]:
+                    alist[j], alist[j+1] = alist[j+1], alist[j]
+    if __name__ == '__main__':
+        alist = [12,34,21,56,78,90,87,65,43,21]
+        bubble_sort(alist)
+        print(alist)
+
+    最坏时间复杂度: O(n^2)
+    最优时间复杂度: O(n)
+    算法稳定性:稳定
+</code></pre>
+
+<p>　　</p>
+
+<h1 id="选择排序-selection-sort">选择排序(selection sort)</h1>
+
+<p><code>选择排序(selection sort)是一种简单直观的排序方法, 他的原理是在要排序的数列中找到最 大 或者最 小 的 元素,放在列表的起始位置,然后从其他里找到第二大,然后第三大,依次排序,</code></p>
+
+<p><code>选择排序的优点是数据移动, 在排序中,每个元素交换时,至少有一个元素移动,因此N个元素进行排序,就会移动 1--N 次,在所有依靠移动元素来排序的算法中,选择排序是比较优秀的一种</code></p>
+
+<h2 id="选择排序代码">选择排序代码</h2>
+
+<pre><code>    if alist[j] &lt; alist[min_index]:
+    min_index = j
+
+    # 判断min_index索引是否相同,不相同，做数值交换
+    if i != min_index:
+    alist[i],alist[min_index] = alist[min_index],alist[i]
+
+    if __name__ == '__main__':
+    alist = [12,34,56,78,90,87,65,43,21]
+    # alist = [1,2,3,4,5,6,7,8,9]
+    select_sort(alist)
+    print(alist)
+
+
+
+    def select_sort(alist):
+    &quot;&quot;&quot;选择排序&quot;&quot;&quot;
+    n = len(alist)
+    for i in range(n - 1):
+    min_index = i  # 最小值位置索引、下标
+    for j in range(i+1, n):
+    if  alist[j] &lt; alist[min_index]:
+    min_index = j
+    # 判断min_index ,如果和初始值不相同，作数值交换
+    if min_index != i:
+    alist[i], alist[min_index] = alist[min_index],alist[i]
+
+
+    if __name__ == '__main__':
+    alist = [8,10,15,30,25,90,66,2,999]
+    select_sort(alist)
+    print(alist)
+
+
+    最优时间复杂度: O(n2)
+
+    最坏时间复杂度:O(n2)
+
+    算法稳定性 :不稳定(考虑每次升序选择最大的时候)
+</code></pre>
+
+<p>这是一些算法的时间复杂度与稳定性
+ ## <img src="/images/1.png" alt="" /></p>
+
+<h1 id="时间复杂度-空间复杂度">时间复杂度,空间复杂度</h1>
+
+<p><code>接下来就要来说说时间复杂度与空间复杂度: 时间复杂度就是假如你 泡茶,从开始泡,到你喝完茶,一共用了多长时间,你中间要执行很多步骤,取茶叶,烧水,上厕所,接电话,这些都是要花时间的</code></p>
+
+<p><code>在算法中,时间复杂度分为  O(1)最快 , O(nn)最慢</code></p>
+
+<blockquote>
+<p>O(1) &lt; O(logn) &lt;O(n)&lt;O(n2)&lt;O(n3)&lt;O(2n) &lt;O(nn)    一般游览器的速度都在O(n),做我们这一行,要注意客户体验,如果你程序的运行特别慢,估计别人来一次,以后再也不会来了</p>
+</blockquote>
+
+<p>下面给大家找了张如何计算 时间复杂度的图片:
+  ## <img src="/images/2.png" alt="" /></p>
+
+<p>空间复杂度(space complexity) ,执行时所需要占的储存空间,记做 s(n)=O(f(n)),其中n是为算法的大小, 空间复杂度 绝对是效率的杀手,曾经看过一遍用插入算法的代码,来解释空间复杂度的,</p>
+
+<p>觉得特别厉害,我就比较low了,只能给大家简单的总结一下我遇到的空间复杂度了,</p>
+
+<p>一般来说,算法的空间复杂度值得是辅助空间,比如:一组数字,时间复杂度O(n),二维数组a[n][m]   :那么他的空间复杂度就是O(n*m),因为变量的内存是自动分配的,第一个的定义是循环里面的,所以是n*O(1)   ,如果第二个循环在外边,那么就是1*O(1)     ,这里也只是一个了解性的东西,如果你的工作中很少用到,那么没有必要深究,因为用的真的很少.</p>
+
+<p>这边带来了代码,你们在复制下来了python上运行一下,看一下用的时间与不同, 自然就懂了,</p>
+
+<p>这是未优化的算法 :
+&ldquo;
+已知有a,b,c三个数,都是0-1000之内的数,
+且: a+b+c=1000 而且 a<strong>2+b</strong>2=c**2  ,求a,b,c一共有多少种组合
+&ldquo;&rsquo;</p>
+
+<pre><code># 在这里加一个时间模块,待会好计算出结果
+import time
+# 记录开头时间
+start_time=time.time()
+# 把a,b,c循环出来
+for  a in range(1001):
+    for b in range(1001):
+        for c in range(100):
+            #  判断他  主公式  第一次,并未优化
+            if a+b+c==1000 and a**2 + b**2 == c**2 :
+                # 打印
+                print(&quot;a=&quot; ,a)
+                print(&quot;b=&quot; ,b)
+                print(&quot;c=&quot; ,c)
+            else:
+                pass
+stop_time = time.time()
+print('一共耗时: %f'%(stop_time-start_time))
+# 一共耗时 156.875001秒
+
+
+
+这是第一次优化
+import time
+# 记录开头时间
+start_time=time.time()
+# 把a,b,c循环出来
+for  a in range(1001):
+    # 这里改成1001-a之后,他就不用再循环b了
+    for b in range(1001-a):
+        for c in range(100):
+            #  判断他  主公式  第二次,优化了b,
+            if a+b+c==1000 and a**2 + b**2 == c**2 :
+                print(&quot;a=&quot; ,a)
+                print(&quot;b=&quot; ,b)
+                print(&quot;c=&quot; ,c)
+            else:
+                pass
+stop_time = time.time()
+print('一共耗时: %f'%(stop_time-start_time))
+# 一共耗时 50.557070秒
+
+
+最后一次优化
+import time
+# 记录开头时间
+start_time=time.time()
+# 把a,b,c循环出来
+for  a in range(1001):
+    for b in range(1001-a):
+            c=1000 - a - b
+            #  判断他  主公式  第三次,优化了b和c
+            if a+b+c==1000 and a**2 + b**2 == c**2 :
+                print(&quot;a=&quot; ,a)
+                print(&quot;b=&quot; ,b)
+                print(&quot;c=&quot; ,c)
+            else:
+                pass
+stop_time = time.time()
+print('一共耗时: %f'%(stop_time-start_time))
+# 一共耗时 2.551449秒
+</code></pre>
+
+<p>*从156秒优化到l2秒,    基本运算总数 * 基本运算耗时  = 运算时间    这之间的耗时和你的机器有着很大的关系*</p>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/05/23/service_2_service_auth/" data-toggle="tooltip" data-placement="top" title="微服务安全沉思录之">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/01/02/nginmesh-install/" data-toggle="tooltip" data-placement="top" title="Nginx开源Service Mesh组件Nginmesh安装指南">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/istio" title="istio">
+                            istio
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/microservice" title="microservice">
+                            microservice
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/service-mesh" title="service-mesh">
+                            service-mesh
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:zy18109506673@sina.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/your%20wechat%20qr%20code%20image">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/134619">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; 张洋的技术博客 2019
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="张洋的技术博客">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="//img/space1.jpg">
+    <meta property="twitter:image" content="//img/space1.jpg" />
+    
+
+    
+    <meta name="title" content="支持向量机" />
+    <meta property="og:title" content="支持向量机" />
+    <meta property="twitter:title" content="支持向量机" />
+    
+
+    
+    <meta name="description" content="分类问题是用于将事物打上一个标签。分类有多个特征,一个标签  .例如判断一幅图片上的动物是一只猫还是一只狗，分类通常是建立在回归之上，分类的最后一层通常要使用softmax函数进行判断其所属类别。分类并没有逼近的概念，最终正确结果只有一个，错误的就是错误的，不会有相近的概念。">
+    <meta property="og:description" content="分类问题是用于将事物打上一个标签。分类有多个特征,一个标签  .例如判断一幅图片上的动物是一只猫还是一只狗，分类通常是建立在回归之上，分类的最后一层通常要使用softmax函数进行判断其所属类别。分类并没有逼近的概念，最终正确结果只有一个，错误的就是错误的，不会有相近的概念。" />
+    <meta property="twitter:description" content="分类问题是用于将事物打上一个标签。分类有多个特征,一个标签  .例如判断一幅图片上的动物是一只猫还是一只狗，分类通常是建立在回归之上，分类的最后一层通常要使用softmax函数进行判断其所属类别。分类并没有逼近的概念，最终正确结果只有一个，错误的就是错误的，不会有相近的概念。" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="在编码中，我喜欢踩别人没踩过得坑，吃别人没吃过的亏，玩别人没玩过得技术，别其他人更努力">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>支持向量机-张洋的博客，你可以叫他伪善</title>
+
+    <link rel="canonical" href="/post/seven/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+	
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">张洋的技术博客</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/tech">tech</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/bpic12214_s.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                    </div>
+                    <h1>支持向量机</h1>
+                    <h2 class="subheading">支持向量机，置信度，网格搜索</h2>
+                    <span class="meta">
+			Posted by 
+			
+			        &#34;张洋&#34;
+			 
+			on 
+			Monday, January 1, 0001
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#支持向量机">支持向量机</a></li>
+<li><a href="#置信度">置信度</a></li>
+<li><a href="#网格搜索-grid-search">网格搜索（Grid Search）</a></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<p><code>上一回有个读者问我:回归模型与分类模型的区别在哪?有什么不同,我在这里给他回答一下 : : : :</code></p>
+
+<p>回归问题通常是用来预测一个值，如预测房价、未来的天气情况等等，例如一个产品的实际价格为500元，通过回归分析预测值为499元，我们认为这是一个比较好的回归分析。</p>
+
+<blockquote>
+<p>分类问题是用于将事物打上一个标签。分类有多个特征,一个标签  .例如判断一幅图片上的动物是一只猫还是一只狗，分类通常是建立在回归之上，分类的最后一层通常要使用softmax函数进行判断其所属类别。分类并没有逼近的概念，最终正确结果只有一个，错误的就是错误的，不会有相近的概念。</p>
+</blockquote>
+
+<h2 id="支持向量机">支持向量机</h2>
+
+<p><code>支持向量机 : 是一种按照监督学习的方式对数据进行二元分类, SVM是（支持向量机) . 可以用来做分类和回归</code>
+SVC是SVM的一种Type，是用来的做分类的                SVR是SVM的另一种Type，是用来的做回归的</p>
+
+<p>SVM里有两个参数 C 和 gamma:
+C是    C是惩罚系数,就是说你对误差的宽容度,这个值越高，说明你越不能容忍出现误差
+gamma是   gamma是你选择径向基函数作为kernel后，该函数自带的一个参数。隐含地决定了数据映射到新的特征空间后的分布</p>
+
+<p>有人会问:径向基 是什么?    径向基又叫做 : 高斯核函数/他是一个核函数</p>
+
+<pre><code>classifier =SVC(kernel='rbf',probability=True)   #此处是径向基核函数
+classifier=SVC(kernel='linear') # 构建线性分类器
+svc(分类)    poly(多项式)    rbf(径向基)  linear(线性分类器)
+</code></pre>
+
+<h2 id="置信度">置信度</h2>
+
+<p>置信度可理解为:  <em>类别概率值 //或者可以理解为可信度 //可以理解为一个人的信誉度为1,而这个1分为了80%和20%,你可以信他80%,这就叫做置信度</em></p>
+
+<pre><code>y_pred_proba =classifier.predict_proba(train_X)    #获取预测数据的置信度置信度
+##predict_proba 是获取置信度
+print(y_pred_proba ) #打印出这组参数的置信度
+</code></pre>
+
+<h2 id="网格搜索-grid-search">网格搜索（Grid Search）</h2>
+
+<blockquote>
+<p>网格搜索（Grid Search）名字非常大气,但是用简答的话来说就是你手动的给出一个模型中你想要改动的所用的参数，程序自动的帮你把所用的参数都运行一遍
+用 GridSearch  来搜索最佳参数组合的方法  :试出来最优的,最好的那组参数
+SVM利用网格搜索和交叉验证进行参数选择 ,GridSearchCV是网格搜索,param_grid,是SVM,  cv = 2是折叠次数</p>
+</blockquote>
+
+<pre><code>gride =GridSearchCV(classifier,param_grid,cv=2)
+kerenl是键linear是他的值,线性分类器,C是他的惩罚系数,
+param_grid =[{'kerenl':['linear'],'C':[1,10,100,300]}]
+</code></pre>
+
+<p>网格(gride)参数:</p>
+
+<pre><code>cv_results_ : 将键作为列标题和值作为列的字典
+splits 有分离,切割的意思,拆分的意思
+n_splits  ：只能拆分整数，交叉验证拆分的数量（折叠/迭代）。
+best最好的,score得分   estimate 估计
+best_score_ :  float；
+best_estimator  的平均交叉验证分数，对于多度量评估.
+</code></pre>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/post/five/" data-toggle="tooltip" data-placement="top" title="">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/istio" title="istio">
+                            istio
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/microservice" title="microservice">
+                            microservice
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/service-mesh" title="service-mesh">
+                            service-mesh
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:zy18109506673@sina.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/your%20wechat%20qr%20code%20image">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/134619">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; 张洋的技术博客 2019
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tech on 张洋的技术博客</title>
+    <link>/categories/tech/</link>
+    <description>Recent content in Tech on 张洋的技术博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 23 May 2019 15:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/tech/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>redis的使用</title>
+      <link>/post/two/</link>
+      <pubDate>Thu, 23 May 2019 15:00:00 +0000</pubDate>
+      
+      <guid>/post/two/</guid>
+      <description>||| redis的存储结构？ redis是以key和vaule的形式进行存储，value可以重复，但是key是唯一的不能重复。 每条数据都是一个键值</description>
+    </item>
+    
+    <item>
+      <title>Cooking与session</title>
+      <link>/post/three/</link>
+      <pubDate>Sat, 23 Feb 2019 12:00:00 +0000</pubDate>
+      
+      <guid>/post/three/</guid>
+      <description>Cookies 某些网站为了辨别用户身份、进行session跟踪而储存在用户本地终端上的数据（通常经过加密）。Cookie最早是网景公司的前雇员Lou Mo</description>
+    </item>
+    
+    <item>
+      <title>JupyterLab绘图</title>
+      <link>/post/four/</link>
+      <pubDate>Sat, 23 Feb 2019 12:00:00 +0000</pubDate>
+      
+      <guid>/post/four/</guid>
+      <description>JupyterLab绘图需要导的包 from numpy import random import pandas as pd import numpy as np 先到这个包 matplotilb(一个绘画2d图的工具) from matplotlib import pyplot as plt import matplotlid %matplotlid (不能再p</description>
+    </item>
+    
+    <item>
+      <title>关于flask我有话说</title>
+      <link>/post/two.1/</link>
+      <pubDate>Wed, 23 Jan 2019 15:00:00 +0000</pubDate>
+      
+      <guid>/post/two.1/</guid>
+      <description>关于flask我有话说 flask作为一个轻量级框架,它里面有好多扩展包需要下载,比较麻烦,而且有的时候flask需要在虚拟环境下运行,但是他</description>
+    </item>
+    
+    <item>
+      <title>Nginx开源Service Mesh组件Nginmesh安装指南</title>
+      <link>/2018/01/02/nginmesh-install/</link>
+      <pubDate>Tue, 02 Jan 2018 12:00:00 +0000</pubDate>
+      
+      <guid>/2018/01/02/nginmesh-install/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+
+&lt;p&gt;Nginmesh是NGINX的Service Mesh开源项目，用于Istio服务网格平台中的数据面代理。它旨在提供七层负载均衡和服务路由功能，与Istio集成作为sidecar部署，并将以“标准，可靠和安全的方式”使得服务间通信更容易。Nginmesh在今年底已经连续发布了0.2和0.3版本，提供了服务发现，请求转发，路由规则，性能指标收集等功能。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>算法分类 ,时间复杂度,空间复杂度,优化算法</title>
+      <link>/post/first/</link>
+      <pubDate>Fri, 23 Jun 2017 23:00:00 +0000</pubDate>
+      
+      <guid>/post/first/</guid>
+      <description>date: &amp;ldquo;2017-05-23&amp;rdquo; title: &amp;ldquo;算法分类 ,时间复杂度 ,空间复杂度,优化算法&amp;rdquo; 今天给大家带来一篇关于算法排序的分类,算法的时间复杂度,空间复杂</description>
+    </item>
+    
+    <item>
+      <title>微服务安全沉思录之</title>
+      <link>/2018/05/23/service_2_service_auth/</link>
+      <pubDate>Tue, 23 May 2017 15:00:00 +0000</pubDate>
+      
+      <guid>/2018/05/23/service_2_service_auth/</guid>
+      <description>&lt;h2 id=&#34;服务间认证与鉴权&#34;&gt;服务间认证与鉴权&lt;/h2&gt;
+
+&lt;p&gt;除来自用户的访问请求以外，微服务应用中的各个微服务相互之间还有大量的访问，包括下述场景：
+* 用户间接触发的微服务之间的相互访问&lt;BR&gt;
+  例如在一个网上商店应用中，用户访问购物车微服务进行结算时，购物车微服务可能需要访问用户评级微服务获取用户的会员级别，以得到用户可以享受购物折扣。
+* 非用户触发的微服务之间的相互访问&lt;BR&gt;
+  例如数据同步或者后台定时任务导致的微服务之间的相互访问。&lt;/p&gt;
+
+&lt;p&gt;根据应用系统的数据敏感程度的不同，对于系统内微服务的相互访问可能有不同的安全要求。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>谈谈微服务架构中的基础设施：Service Mesh与Istio</title>
+      <link>/2018/03/29/what-is-service-mesh-and-istio/</link>
+      <pubDate>Wed, 29 Mar 2017 12:00:00 +0000</pubDate>
+      
+      <guid>/2018/03/29/what-is-service-mesh-and-istio/</guid>
+      <description>&lt;h2 id=&#34;微服务架构的演进&#34;&gt;微服务架构的演进&lt;/h2&gt;
+
+&lt;p&gt;作为一种架构模式，微服务将复杂系统切分为数十乃至上百个小服务，每个服务负责实现一个独立的业务逻辑。这些小服务易于被小型的软件工程师团队所理解和修改，并带来了语言和框架选择灵活性，缩短应用开发上线时间，可根据不同的工作负载和资源要求对服务进行独立缩扩容等优势。&lt;/p&gt;
+
+&lt;p&gt;另一方面，当应用被拆分为多个微服务进程后，进程内的方法调用变成了了进程间的远程调用。引入了对大量服务的连接、管理和监控的复杂性。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>支持向量机</title>
+      <link>/post/seven/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/post/seven/</guid>
+      <description>上一回有个读者问我:回归模型与分类模型的区别在哪?有什么不同,我在这里给他回答一下 : : : : 回归问题通常是用来预测一个值，如预测房价、未来的天</description>
+    </item>
+    
+  </channel>
+</rss>

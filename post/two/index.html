@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="张洋的技术博客">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="//img/space1.jpg">
+    <meta property="twitter:image" content="//img/space1.jpg" />
+    
+
+    
+    <meta name="title" content="redis的使用" />
+    <meta property="og:title" content="redis的使用" />
+    <meta property="twitter:title" content="redis的使用" />
+    
+
+    
+    <meta name="description" content="redis是以key和vaule的形式进行存储，value可以重复，但是key是唯一的不能重复">
+    <meta property="og:description" content="redis是以key和vaule的形式进行存储，value可以重复，但是key是唯一的不能重复" />
+    <meta property="twitter:description" content="redis是以key和vaule的形式进行存储，value可以重复，但是key是唯一的不能重复" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="在编码中，我喜欢踩别人没踩过得坑，吃别人没吃过的亏，玩别人没玩过得技术，别其他人更努力">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>redis的使用-张洋的博客，你可以叫他伪善</title>
+
+    <link rel="canonical" href="/post/two/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+	
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">张洋的技术博客</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/tech">tech</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/09.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                    </div>
+                    <h1>redis的使用</h1>
+                    <h2 class="subheading">redis介绍，集群搭建，订阅推送消息框架</h2>
+                    <span class="meta">
+			Posted by 
+			
+			        &#34;张洋&#34;
+			 
+			on 
+			Thursday, May 23, 2019
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#redis的存储结构">||| <code>redis的存储结构？</code></a></li>
+<li><a href="#redis的缓存机制">||| <code>redis的缓存机制</code></a></li>
+<li><a href="#redis的订阅发布功能">||| redis的订阅发布功能</a></li>
+<li><a href="#redis如何搭建集群">||| redis如何搭建集群</a></li>
+<li><a href="#怎么保证redis中的数据都是热数据">怎么保证redis中的数据都是热数据</a></li>
+<li><a href="#redis面试题"><code>redis面试题</code></a></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<h2 id="redis的存储结构">||| <code>redis的存储结构？</code></h2>
+
+<blockquote>
+<p>redis是以key和vaule的形式进行存储，value可以重复，但是key是唯一的不能重复。
+每条数据都是一个键值对，键的类型必须是是字符串。而值的类型是五种的。如字符串、哈希hash、列表、集合（有序集合，无序集合）。</p>
+
+<p>redis所有的操作都遵从原子性，意思就是要么成功执行要么失败完全不执行。单个操作是原子性的。
+redis的底层由c语言编写，支持网络，可以将缓存持久化到硬盘上。</p>
+</blockquote>
+
+<h2 id="redis的缓存机制">||| <code>redis的缓存机制</code></h2>
+
+<p>redis的缓存分为两种，RDB与AOF</p>
+
+<blockquote>
+<p>RDB持久化是在指定时间段内将内存中的数据集快照写入磁盘。RDB持久化成功之后，会在对应文件下生成一个dump.rdb文件。
+当下次启动服务，redis会先从dump.rdb文件中读取数据，然后如果没有读取到，才会去数据库中读数据。</p>
+</blockquote>
+
+<p><code>RDB的优点：</code></p>
+
+<p>1，只有一个缓存文件dump.rdb，方便持久化；</p>
+
+<p>2，容错性好，一个文件可以保存到安全的磁盘；</p>
+
+<p>3，性能最大化，子进程来完成写操作，让主进程继续处理命令，所以是IO最大化；</p>
+
+<p>4，如果数据集偏大，RDB的启动效率会比AOF更高。</p>
+
+<p><code>RDB的缺点</code></p>
+
+<blockquote>
+<p>1，数据安全性低。因为RDB是间隔一段时间进行持久化，如果持久化之间redis发生故障，会发生数据丢失。</p>
+
+<p>2)，AOF持久化是以日志的形式记录服务器所处理的所有操作，但是查询不会记录。记录是以文本的形式记录，文件中可以看到详细的操作。当redis重启时，他会将日志里的所有命令从前到后都执行一次，恢复数据。</p>
+</blockquote>
+
+<p><code>AOF的优点：</code></p>
+
+<p>1）数据安全性更高,通过append模式写文件，即使中途服务器宕机，可以通过一致性解决数据问题</p>
+
+<p><code>AOF的缺点</code></p>
+
+<blockquote>
+<p>1）AOF文件比RDB文件大，且恢复速度慢；数据集大的时候，比rdb启动效率低。</p>
+</blockquote>
+
+<h2 id="redis的订阅发布功能">||| redis的订阅发布功能</h2>
+
+<p><code>1，redis发布订阅架构</code>
+&gt;redis里内置了发布订阅功能，可以用于消息的传输，redis的发布订阅架构分为三部分  ： 发布者，订阅者，Channel</p>
+
+<blockquote>
+<p>发布者和订阅者都是redis客户端，Channel是redis的服务端。发布者将消息发送到某个频道，(频道是由Challel来决定的)， 订阅了这个频道的订阅者就能接收到这个消息.</p>
+</blockquote>
+
+<p><code>2，redis发布订阅功能</code>
+&gt;redis的订阅发布功能与他的数据存储无关，订阅功能不会影响数据存储，但是通过订阅机制，可以加一个功能，当你redis里的数据更改时，假如你订阅了这个功能,他会向你推送提醒消息。</p>
+
+<h2 id="redis如何搭建集群">||| redis如何搭建集群</h2>
+
+<p>redis集群需要多个服务器，根据需求创造节点，我当时创造出来3个mater节点、三个salve节点，采用的是3.2版本的redis，两台虚拟机都是CentOS，一台6.5版本，一台7版</p>
+
+<p>||<code>节点</code>|| ：在redis集群中，数据是分布在节点上的，节点之间是可以进行通信的，可以叫做<code>节点握手</code>，在分布式存储中需要提供维护节点元数据信息的机制，元数据就是节点所负责的数据，那些数据是否出现故障。<em>维护元数据采用拍p2p中的流言协议，流言协议的工作原理就是节点之间彼此不断的交互信息，一段时间后所有的节点都会知道集群的信息，这种方式就像流言传播一样</em>
+集群中每个节点都会单独开通一个TCP通道，用于节点之间彼此的通信。
+每个节点都会在固定的时间选择几个节点发送ping消息。接收到ping消息的节点用pong消息作为响应返回。</p>
+
+<p>Gossip协议的主要职责就是信息交换。信息交换的载体就是节点彼此发送的Gossip消息，
+常用的Gossip消息可分为：
+<code>ping消息</code>()
+<code>pong消息</code>(当接收到ping、meet消息时，作为响应消息回复给发送方确认消息正常通信)、
+<code>meet消息</code>(用于通知新节点加入，通知其他节点新加了一个节点，meet消息正常完成后，节点就会加入到集群中进行消息交互)
+<code>fail消息</code>(当一个节点下线时，会告诉其他节点这个节点下线了，其他节点就会把他的状态更新为下线，不再给他传播消息)</p>
+
+<h2 id="怎么保证redis中的数据都是热数据">怎么保证redis中的数据都是热数据</h2>
+
+<p>redis 提供 6种数据淘汰策略：</p>
+
+<p>voltile-lru：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰</p>
+
+<p>volatile-ttl：从已设置过期时间的数据集（server.db[i].expires）中挑选将要过期的数据淘汰</p>
+
+<p>volatile-random：从已设置过期时间的数据集（server.db[i].expires）中任意选择数据淘汰</p>
+
+<p>allkeys-lru：从数据集（server.db[i].dict）中挑选最近最少使用的数据淘汰</p>
+
+<p>allkeys-random：从数据集（server.db[i].dict）中任意选择数据淘汰</p>
+
+<p>no-enviction（驱逐）：禁止驱逐数据</p>
+
+<h2 id="redis面试题"><code>redis面试题</code></h2>
+
+<p><code>题目</code>：目前公司有十万员工，分成500个部门，公司为员工制定了每日9点前和18点后网上签到的制度，签到之后可以及时查看自身签到状态，主管可以及时收到下属员工的签到状态，一整天未签到的员工自动补充旷工。</p>
+
+<p>以上为场景为准；请用<code>python+redis+队列+mysql</code>实现此功能。</p>
+
+<p>这一题主要考察面试者对效率，并发，容错率等等各方面的思考能力</p>
+
+<blockquote>
+<p>我的理解是：这500个部门的信息可以看作500个key，key的值是部门id+签到量+日期 。10万员工的信息，可以做为key下的Value，value的值是 员工 id+ 签到状态（map(迟到或者没迟到）)。</p>
+
+<p>当员工签到时必须要登陆，登陆失败则不做处理 ，登陆成功后将员工的个人信息存放到Redis里,当员工签到成功后，将他的签到状态修改成为已签到.
+然后就可以将map取出，进行遍历，加入到消息队列中，推送给主管。可以设置一个定时任务，在每天的某一时间段，将map取出遍历，然后判断签到状态，已签到的可以直接持久化到数据库中，状态为迟到的可以加到消息队列里，状态为空的，那就是旷工。
+<code>有必要的话可以加一个锁，让员工们除了自己的状态，看不到其他人的状态，</code></p>
+</blockquote>
+
+<p><code>这个题中可能会问到的问题：</code>
+1，你打算用什么数据类型来存储信息？
+答：因为题目中说到员工可以随时查看自己的信息，redis支持自定义对象的存储，可以用序列化或者反序列化来将数据转换成json类型的数据。</p>
+
+<p>2，你说到了建议加锁，那你觉得redis中加什么锁合适？</p>
+
+<p><code>答：redis中是没有锁的概念的，他的锁是利用过期时间来实现锁。</code></p>
+
+<p>3，redis中自带订阅发布功能，为什么还要用推送呢？</p>
+
+<p><code>答：redis中自带订阅发布功能，但是我不推荐使用，因为redis无法对消息进行持久化处理，不管发送成功还是失败，都会消失。还有redis 的功能比较简单，使用场景不是很多。</code></p>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/three/" data-toggle="tooltip" data-placement="top" title="Cooking与session">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/istio" title="istio">
+                            istio
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/microservice" title="microservice">
+                            microservice
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/service-mesh" title="service-mesh">
+                            service-mesh
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:zy18109506673@sina.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/your%20wechat%20qr%20code%20image">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/134619">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; 张洋的技术博客 2019
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>
